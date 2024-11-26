@@ -8,90 +8,104 @@ class ArithmeticView extends StatefulWidget {
 }
 
 class _ArithmeticViewState extends State<ArithmeticView> {
-  int first = 0;
-  int second = 0;
-  int result = 0;
+  int first = 0; // First number input
+  int second = 0; // Second number input
+  int result = 0; // Result of the operation
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Arithmetic Operations'),
+        centerTitle: true,
+      ),
       body: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: Column(
-          children: [
-            TextField(
-              onChanged: (value) {
-                first = int.parse(value);
-              },
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Enter First No',
-              ),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            TextField(
-              onChanged: (value) {
-                second = int.parse(value);
-              },
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Enter Second No',
-              ),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Text('Result : $result'),
-            const SizedBox(
-              height: 8,
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              // First Number Input
+              TextField(
+                onChanged: (value) {
                   setState(() {
-                    result = first + second;
+                    first = int.tryParse(value) ?? 0;
                   });
                 },
-                child: const Text('Addition'),
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Enter First Number',
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
+              const SizedBox(height: 16),
+
+              // Second Number Input
+              TextField(
+                onChanged: (value) {
                   setState(() {
-                    result = second - first;
+                    second = int.tryParse(value) ?? 0;
                   });
                 },
-                child: const Text('Subtraction'),
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Enter Second Number',
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    result = first * second;
-                  });
-                },
-                child: const Text('Multiplication'),
+              const SizedBox(height: 16),
+
+              // Result Display
+              Text(
+                'Result: $result',
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-            ),
-          ],
+              const SizedBox(height: 24),
+
+              // Addition Button
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      result = first + second;
+                    });
+                  },
+                  child: const Text('Addition'),
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              // Subtraction Button
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      result = first - second;
+                    });
+                  },
+                  child: const Text('Subtraction'),
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              // Multiplication Button
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      result = first * second;
+                    });
+                  },
+                  child: const Text('Multiplication'),
+                ),
+              ),
+            ],
+          ),
         ),
-      )),
+      ),
     );
   }
 }
