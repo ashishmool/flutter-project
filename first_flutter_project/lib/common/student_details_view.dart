@@ -54,7 +54,6 @@ class _StudentDetailsViewState extends State<StudentDetailsView> {
             ),
             _gap,
             DropdownButtonFormField(
-              // icon: const Icon(Icons.arrow_downward),
               items: items,
               onChanged: (value) {
                 setState(() {
@@ -71,14 +70,25 @@ class _StudentDetailsViewState extends State<StudentDetailsView> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  Student student = Student(
-                    fname: _fnameController.text.trim(),
-                    lname: _lnameController.text.trim(),
-                    city: selectedCity!,
-                  );
-                  setState(() {
-                    lstStudents.add(student);
-                  });
+                  if (_fnameController.text.isNotEmpty &&
+                      _lnameController.text.isNotEmpty &&
+                      selectedCity != null) {
+                    Student student = Student(
+                      fname: _fnameController.text.trim(),
+                      lname: _lnameController.text.trim(),
+                      city: selectedCity!,
+                    );
+                    setState(() {
+                      lstStudents.add(student);
+                      _fnameController.clear();
+                      _lnameController.clear();
+                      selectedCity = null;
+                    });
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Please fill all fields')),
+                    );
+                  }
                 },
                 child: const Text('Add Student'),
               ),
@@ -102,8 +112,13 @@ class _StudentDetailsViewState extends State<StudentDetailsView> {
             lstStudents.isEmpty
                 ? const Text('No Data Found!')
                 : StudentListView(
-                    lstStudents: lstStudents,
-                  )
+              lstStudents: lstStudents,
+              onDelete: (index) {
+                setState(() {
+                  lstStudents.removeAt(index);
+                });
+              },
+            )
           ],
         ),
       ),

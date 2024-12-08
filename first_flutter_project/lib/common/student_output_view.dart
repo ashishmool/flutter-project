@@ -11,10 +11,17 @@ class StudentOutputView extends StatefulWidget {
 
 class _StudentOutputViewState extends State<StudentOutputView> {
   List<Student> lstStudents = [];
+
   @override
   void didChangeDependencies() {
     lstStudents = ModalRoute.of(context)!.settings.arguments as List<Student>;
     super.didChangeDependencies();
+  }
+
+  void deleteStudent(int index) {
+    setState(() {
+      lstStudents.removeAt(index);
+    });
   }
 
   @override
@@ -26,8 +33,9 @@ class _StudentOutputViewState extends State<StudentOutputView> {
       body: lstStudents.isEmpty
           ? const Center(child: Text('No Data Found!'))
           : StudentListView(
-              lstStudents: lstStudents,
-            ),
+        lstStudents: lstStudents,
+        onDelete: deleteStudent,
+      ),
     );
   }
 }
